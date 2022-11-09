@@ -1,8 +1,8 @@
-from typing import Text
-import PySimpleGUI as sg
 import os
 import math
 import cv2
+import numpy as np
+import PySimpleGUI as sg
 
 def speckle_image(values):
 
@@ -14,11 +14,11 @@ def speckle_image(values):
             any_field = 1
         else:
             window[val].update(background_color='white')
-    
+
     if any_field:
         sg.popup(f'Missing fields.')
         return
-    
+
     img = values['SPECKLE']
     res_px = [int(values['PX_WIDTH']),int(values['PX_HEIGHT'])]
     ref_img = cv2.imread(img,0)
@@ -40,7 +40,7 @@ def calibration_file(values):
             any_field = 1
         else:
             window[val].update(background_color='white')
-        
+
     if any_field:
         sg.popup(f'Missing fields.')
         return
@@ -147,7 +147,7 @@ browse_layout = [
 
 browse = [[sg.Frame('Speckle Pattern',browse_layout)]]
 
-fov_layout = [   
+fov_layout = [
     [
         sg.Text('Width',size=(5,1),justification='right'),
         sg.Input('',tooltip='Units: milimeters',enable_events=True,justification='center',size=(8,10),key='WIDTH')
@@ -160,7 +160,7 @@ fov_layout = [
 
 fov = [[sg.Frame('Field-of-View',fov_layout)]]
 
-lenses_layout = [   
+lenses_layout = [
     [
         sg.Text('Focal Length',size=(15,1),justification='right'),
         sg.Input('',tooltip='Units: milimeters',enable_events=True,justification='center',size=(8,10),key='FOCAL_LENGTH')
@@ -177,7 +177,7 @@ lenses_layout = [
 
 lenses = [[sg.Frame('Lenses',lenses_layout)]]
 
-camera_layout = [   
+camera_layout = [
     [
         sg.Text('',size=(8,1),justification='right'),
         sg.Text('Width',justification='center',size=(7,1)),
@@ -197,7 +197,7 @@ camera_layout = [
 
 camera = [[sg.Frame('Camera Resolution',camera_layout)]]
 
-camera_layout = [   
+camera_layout = [
     [
         sg.Text('',size=(2,1),justification='right'),
         sg.Text('Cam 0',justification='center',size=(7,1)),
@@ -255,7 +255,7 @@ camera_layout = [
     ],
 ]
 
-extrinsic_layout = [   
+extrinsic_layout = [
     [
         sg.Text('',size=(4,1),justification='right'),
         sg.Text('Extrinsic',justification='center',size=(7,1)),
@@ -295,8 +295,8 @@ calibration_layout = [
     [
         sg.Column(camera_layout,vertical_alignment='top'),
         sg.Column(extrinsic_layout,vertical_alignment='top'),
-        
-    ], 
+
+    ],
 ]
 calibration = [[sg.Frame('Calibration Parameters',calibration_layout)]]
 
@@ -365,7 +365,7 @@ while True:
 
     elif event == 'CAL_CLEAR':
         blank = ['FX_0','FY_0','FS_0','K1_0','K2_0','K3_0','P1_0','P2_0','CX_0','CY_0','FX_1','FY_1','FS_1','K1_1','K2_1','K3_1','P1_1','P2_1','CX_1','CY_1','TX','TY','TZ','THETA','PHI','PSI']
-        
+
         for val in blank: window[val].update('',background_color='white')
         window['ESTIMATED_DISTANCE'].update('',visible=False)
 
@@ -379,7 +379,7 @@ while True:
                 any_field = 1
             else:
                 window[val].update(background_color='white')
-        
+
         if any_field:
             sg.popup(f'Missing fields.')
         else:
